@@ -161,7 +161,10 @@
   (bt:destroy-thread proc))
 
 (defun all-threads ()
-  (bt:all-threads))
+  (values (reduce 'mapcar '(length funcall) :from-end t
+                  :initial-value '(pooled-tasks pooled-threads
+                                   BORDEAUX-THREADS:ALL-THREADS))
+          (bt:all-threads)))
 
 (defun pcall (function &key (name "Anonymous task")
                          (initial-bindings *default-special-bindings*))
